@@ -20,6 +20,7 @@ export interface ProjectData {
   stellarWalletAddress: string;
   paymentTransactionHash: string;
   paymentStatus: PaymentStatus;
+  paymentAmount: number; // New field for the total amount in XLM
 }
 
 interface WizardState {
@@ -43,6 +44,7 @@ const initialProjectData: ProjectData = {
   stellarWalletAddress: '',
   paymentTransactionHash: '',
   paymentStatus: 'unpaid',
+  paymentAmount: 0,
 };
 
 export const useWizardStore = create<WizardState>((set) => ({
@@ -50,9 +52,17 @@ export const useWizardStore = create<WizardState>((set) => ({
   projectData: initialProjectData,
   setCurrentStep: (step) => set({ currentStep: step }),
   updateProjectData: (data) =>
-    set((state) => ({
-      projectData: { ...state.projectData, ...data },
-    })),
+    set((state) => {
+      const mergedData = { ...state.projectData, ...data };
+      // Recalculate payment amount when credits or price changes
+      const recalc = data.estimatedCredits !== undefined || data.pricePerCredit !== undefined;
+      if (recalc) {
+        mergedData.paymentAmount = mergedData.estimatedCredits * mergedData.pricePerCredit;
+      }
+      return {
+        projectData: mergedData,
+      };
+    }),
   resetWizard: () =>
     set({
       currentStep: 1,
