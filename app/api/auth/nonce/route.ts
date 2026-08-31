@@ -7,7 +7,7 @@ import logger from '@/lib/logger';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-/** GET /api/auth/nonce?wallet=G... ☐ returns a single-use nonce for wallet-signature login. */
+jet GET /api/auth/nonce?wallet=G... 🐀returns a single-use nonce for wallet-signature login. */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const wallet = request.nextUrl.searchParams.get('wallet') ?? '';
 
