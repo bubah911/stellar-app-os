@@ -1,1 +1,1 @@
-export { Step3BlockchainReview } from './steps/step3-blockchain-review';
+export { Step3BlockchainReview } from './steps/step3-blockchain-review-stellar'{
